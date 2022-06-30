@@ -69,6 +69,8 @@ def send_mail_after_subscription(email):
     send_mail(subject, message , email_from ,recipient_list )	
 
 
+
+#CONTACT PAGE
 @api_view(['GET', 'POST'])
 def Contacts(request):
 	if request.method == "GET":
@@ -88,7 +90,7 @@ def Contacts(request):
 		return HttpResponse("Query received.")
 
 
-
+#FEEDBACK FORM
 @api_view(['GET', 'POST'])
 def feedback(request):
 	if request.method == "GET":
@@ -105,3 +107,21 @@ def feedback(request):
 		feedback.subject = subject
 		feedback.save()
 		return HttpResponse("<h1>Thank you for your feedback!</h1>")
+
+#RAISE A QUERY
+@api_view(['GET', 'POST'])
+def raiseaquery(request):
+	if request.method == "GET":
+		allquery=queryModel.objects.all()
+		context={'allquery': allquery}
+		return HttpResponse(allquery)
+	if request.method == "POST":
+		query = queryModel()
+		name = request.POST.get('name')
+		email = request.POST.get('email')
+		subject = request.POST.get('subject')
+		query.name = name
+		query.email = email
+		query.subject = subject
+		query.save()
+		return HttpResponse("<h1>Thank you for sending in your query!</h1>")
