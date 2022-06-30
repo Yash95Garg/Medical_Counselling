@@ -3,6 +3,8 @@ from . import views
 
 urlpatterns = [
     path('y', views.newsletterHome),
-    path('ex/', views.newsletterHome)
+    path('ex/', views.newsletterHome),
+    path('contact/', views.Contacts, name = 'contact'),
+    path('feedback/', views.feedback, name = 'feedback'),
 
 ]

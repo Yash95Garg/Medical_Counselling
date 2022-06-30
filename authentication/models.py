@@ -19,4 +19,21 @@ class Subscription(models.Model):
     
     email = models.EmailField(max_length=50)
     name = models.TextField()
+
+class Contact(models.Model):
+	name = models.CharField(max_length=150)
+	email = models.EmailField()
+	subject = models.TextField()
+
+	def __str__(self):
+		return self.name 
+
+
+class Feedback(models.Model):
+	name = models.CharField(max_length=150)
+	email = models.EmailField()
+	subject = models.TextField()
+
+	def __str__(self):
+		return self.name 
 	     

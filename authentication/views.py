@@ -67,3 +67,41 @@ def send_mail_after_subscription(email):
     email_from = settings.EMAIL_HOST_USER
     recipient_list = [email]
     send_mail(subject, message , email_from ,recipient_list )	
+
+
+@api_view(['GET', 'POST'])
+def Contacts(request):
+	if request.method == "GET":
+		allContacts=Contact.objects.all()
+		context={'allContacts': allContacts}
+		return HttpResponse(allContacts)
+	if request.method == "POST":
+		name = request.POST.get('name')
+		email = request.POST.get('email')
+		subject = request.POST.get('subject')
+		contact_obj = Contact(
+			name = name,
+			email = email,
+			subject = subject,
+		)
+		contact_obj.save()
+		return HttpResponse("Query received.")
+
+
+
+@api_view(['GET', 'POST'])
+def feedback(request):
+	if request.method == "GET":
+		allfeedback=Feedback.objects.all()
+		context={'allfeedback': allfeedback}
+		return HttpResponse(allfeedback)
+	if request.method == "POST":
+		feedback = Feedback()
+		name = request.POST.get('name')
+		email = request.POST.get('email')
+		subject = request.POST.get('subject')
+		feedback.name = name
+		feedback.email = email
+		feedback.subject = subject
+		feedback.save()
+		return HttpResponse("<h1>Thank you for your feedback!</h1>")
