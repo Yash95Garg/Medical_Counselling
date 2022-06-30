@@ -105,3 +105,73 @@ def feedback(request):
 		feedback.subject = subject
 		feedback.save()
 		return HttpResponse("<h1>Thank you for your feedback!</h1>")
+
+@api_view(['POST','GET'])
+def Our_contributor(request):
+    if request.method == 'GET':
+        allContributors = Contributor.objects.all()
+        context = {'allContributors': allContributors}
+        return HttpResponse(allContributor)
+    if request.method == 'POST':
+        name = request.data.get('name')
+        uploaded_file=request.FILES['document']
+        fs = FileSystemStorage()
+        name = fs.save(uploaded_file.name, uploaded_file)
+        imageurl = fs.url(name)
+        about = request.POST.get('about')
+        status = request.POST.get('status')
+        Facebook_url = request.POST.get('Facebook_url')
+        Instagram_url = request.POST.get('Instagram_url')
+        Mail_url = request.POST.get('Mail_url')
+        Twitter_url = request.POST.get('Twitter_url')
+
+
+        contributor_obj = Contributor(
+            name=name,
+            Facebook_url = Facebook_url,
+            Instagram_url = Instagram_url,
+            Mail_url = Mail_url,
+            Twitter_url = Twitter_url,
+            about = about,
+            status = status, imageurl = imageurl
+            )
+        contributor_obj.save()
+
+
+        print(contributor_obj)
+        return HttpResponse("Added")
+
+@api_view(['POST', 'GET'])
+def our_donator(request):
+    if request.method == 'POST':
+        name = request.data.get('name')
+        uploaded_file = request.FILES['document']
+        fs = FileSystemStorage()
+        name = fs.save(uploaded_file.name, uploaded_file)
+        imageurl = fs.url(name)
+        about = request.POST.get('about')
+        status = request.POST.get('status')
+        Facebook_url = request.POST.get('Facebook_url')
+        Instagram_url = request.POST.get('Instagram_url')
+        Mail_url = request.POST.get('Mail_url')
+        Twitter_url = request.POST.get('Twitter_url')
+
+
+        donator_obj = Donator(
+            name = name,
+            about = about,
+            Facebook_url=Facebook_url,
+            Instagram_url=Instagram_url,
+            Mail_url=Mail_url,
+            Twitter_url=Twitter_url,
+            status = status, imageurl = imageurl
+            )
+        donator_obj.save()
+
+
+        print(donator_obj)
+        return HttpResponse("Added successfully")
+    if request.method == 'GET':
+        allDonators = Donators.objects.all()
+        context = {'allDonators': allDonators}
+        return HttpResponse(allDonators)        
