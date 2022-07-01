@@ -73,3 +73,58 @@ def send_mail_after_subscription(email):
 
 #test
 
+#CONTACT PAGE
+@api_view(['GET', 'POST'])
+def Contacts(request):
+	if request.method == "GET":
+		allContacts=Contact.objects.all()
+		context={'allContacts': allContacts}
+		return HttpResponse(allContacts)
+	if request.method == "POST":
+		name = request.POST.get('name')
+		email = request.POST.get('email')
+		subject = request.POST.get('subject')
+		contact_obj = Contact(
+			name = name,
+			email = email,
+			subject = subject,
+		)
+		contact_obj.save()
+		return HttpResponse("Query received.")
+
+
+#FEEDBACK FORM
+@api_view(['GET', 'POST'])
+def feedback(request):
+	if request.method == "GET":
+		allfeedback=Feedback.objects.all()
+		context={'allfeedback': allfeedback}
+		return HttpResponse(allfeedback)
+	if request.method == "POST":
+		feedback = Feedback()
+		name = request.POST.get('name')
+		email = request.POST.get('email')
+		subject = request.POST.get('subject')
+		feedback.name = name
+		feedback.email = email
+		feedback.subject = subject
+		feedback.save()
+		return HttpResponse("<h1>Thank you for your feedback!</h1>")
+
+#RAISE A QUERY
+@api_view(['GET', 'POST'])
+def raiseaquery(request):
+	if request.method == "GET":
+		allquery=queryModel.objects.all()
+		context={'allquery': allquery}
+		return HttpResponse(allquery)
+	if request.method == "POST":
+		query = queryModel()
+		name = request.POST.get('name')
+		email = request.POST.get('email')
+		subject = request.POST.get('subject')
+		query.name = name
+		query.email = email
+		query.subject = subject
+		query.save()
+		return HttpResponse("<h1>Thank you for sending in your query!</h1>")
