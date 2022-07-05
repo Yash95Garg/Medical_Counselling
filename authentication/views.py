@@ -125,3 +125,9 @@ def raiseaquery(request):
 		query.subject = subject
 		query.save()
 		return HttpResponse("<h1>Thank you for sending in your query!</h1>")
+
+
+
+
+
+
