@@ -6,12 +6,14 @@ from django.shortcuts import render,HttpResponse,redirect
 from django import http
 from rest_framework.decorators import api_view
 from django.contrib.auth.models import User
+from rest_framework.views import APIView
 
 from django.core.mail import send_mail
 from django.core.files.storage import FileSystemStorage
 from .models import *
-
-
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.permissions import IsAuthenticated
+# from authentication.serializers import UserLoginSerializer
 
 
 
@@ -174,4 +176,35 @@ def our_donator(request):
     if request.method == 'GET':
         allDonators = Donators.objects.all()
         context = {'allDonators': allDonators}
-        return HttpResponse(allDonators)        
+        return HttpResponse(allDonators)
+
+@api_view(['GET', 'POST'])
+def FbLogin(request):
+	if request.method == "GET":
+		allFbLogin=FbLogin.objects.all()
+		context={'FbLogin': FbLogin}
+		return HttpResponse(FbLogin)
+	if request.method == "POST":
+		name = request.POST.get('name')
+		email = request.POST.get('email')
+		Fblogin_obj = Contact(
+			name = name,
+			email = email,
+		)
+		Fblogin_obj.save()
+		return HttpResponse("Succesfully Logged In via Facebook.")
+
+# class UserLoginView(APIView):
+#     # renderer_classes = [UserRenderer]
+#     def post(self, request, format=None):
+#         serializer = UserLoginSerializer(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         email = serializer.data.get('email')
+#         password = serializer.data.get('password')
+#         user = authenticate(email=email, password=password)
+#         if user is not None:
+#             token = get_tokens_for_user(user)
+#             return Response({'token':token, 'msg':'Login Success'}, status=status.HTTP_200_OK)
+#         else:
+#             return Response({'errors':{'non_field_errors':['Email or Password is not Valid']}}, status=status.HTTP_404_NOT_FOUND)
+
