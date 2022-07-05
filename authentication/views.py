@@ -70,6 +70,9 @@ def send_mail_after_subscription(email):
 
 
 
+
+#test
+
 #CONTACT PAGE
 @api_view(['GET', 'POST'])
 def Contacts(request):
