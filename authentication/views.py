@@ -4,6 +4,7 @@ from django.shortcuts import render
 
 from django.shortcuts import render,HttpResponse,redirect
 from django import http
+from authentication.serializers import ShareExpSerializer
 from rest_framework.decorators import api_view
 from django.contrib.auth.models import User
 
@@ -128,3 +129,42 @@ def raiseaquery(request):
 		query.subject = subject
 		query.save()
 		return HttpResponse("<h1>Thank you for sending in your query!</h1>")
+
+
+
+#SHARE EXP APIS
+
+# @api_view(['GET','POST'])
+# def shareexp(self,request,patient_no=None):
+# 	if request.method == "GET":
+# 		if patient_no:
+# 			Exp = ShareExp.object.get(patient_no=patient_no)
+# 			serializer = ShareExpSerializer(Exp)
+# 			return HttpResponse(serializer.data)
+
+
+# 	if request.method == "POST":
+# 		serializer = ShareExpSerializer(data=request.data)
+# 		if serializer.is_valid():
+# 			serializer.save()
+# 			return HttpResponse("<h1>Thank you for sending in your query!</h1>")
+# 		else:
+# 			return HttpResponse("Error")
+
+
+
+
+
+
+
+			
+
+
+    	
+
+
+
+#ASK SUGGESTION APIS
+
+
+

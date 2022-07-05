@@ -1,8 +1,9 @@
+from platform import mac_ver
 from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager, PermissionsMixin)
 from django.db import models
-
+from django.contrib.auth.models import User
 
 
 
@@ -72,3 +73,84 @@ class Donator(models.Model):
     Instagram_url = models.TextField(max_length=50)
     Mail_url = models.TextField(max_length=50)
     Twitter_url = models.TextField(max_length=50)
+
+
+
+
+#WEEK2 TASKs
+
+
+#share_experiance model
+
+class ShareExp(models.Model):
+    username = models.ForeignKey(User, on_delete= models.CASCADE)
+    patient_name = models.CharField(max_length=20)
+    GENDER_CHOICES = (
+        ('M','Male'),
+        ('F','Female'),
+        ('O','Others'),
+    )
+    gender = models.CharField(max_length=10,choices=GENDER_CHOICES)
+    age = models.IntegerField(max_length=3)
+    phone = models.IntegerField(max_length=10)
+    email = models.CharField(max_length=50)
+    disease_name = models.CharField(max_length=50)
+    pathy_name = models.CharField(max_length=50)
+    
+    description = models.CharField(max_length=255)
+    additional_file_url = models.CharField(max_length=50)
+
+    VERIFICATION = (
+        ('V', 'Verified'),
+        ('U', 'Unverified'),
+    )
+    verification = models.TextField(max_length=10, choices=VERIFICATION)
+
+    Status = (
+        ('E', 'Enabled'),
+        ('D', 'Disabled'),
+    )
+    status = models.TextField(max_length=10, choices=Status)
+
+    RATING = (
+        ('1', 'VeryBad'),
+        ('2', 'Bad'),
+        ('3', 'Okay'),
+        ('4', 'Good'),
+        ('5', 'Excellent'),
+    )
+    ratings = models.IntegerField(default=3, choices=RATING)
+
+
+    case_no = models.IntegerField(max_length=5)
+    title = models.CharField(max_length=50)
+
+
+#Ask suggestion model
+
+class AskSuggestion(models.Model):
+    username = models.ForeignKey(User, on_delete= models.CASCADE)
+    patient_name = models.CharField(max_length=20)
+    
+    GENDER_CHOICES = (
+        ('M','Male'),
+        ('F','Female'),
+        ('O','Others'),
+    )
+    gender = models.CharField(max_length=1,choices=GENDER_CHOICES)
+    age = models.IntegerField(max_length=3)
+    phone = models.IntegerField(max_length=10)
+    email = models.CharField(max_length=50)
+    disease_name = models.CharField(max_length=50)
+    symptoms = models.CharField(max_length=255)
+    
+    description = models.CharField(max_length=255)
+    additional_file_url = models.CharField(max_length=50)
+
+    current_condition = models.CharField(max_length=255)
+    query = models.CharField(max_length=255)
+
+    case_no = models.IntegerField(max_length=5)
+    title = models.CharField(max_length=50)
+
+ 

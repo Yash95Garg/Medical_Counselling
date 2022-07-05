@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Newsletter
+from .models import AskSuggestion, Newsletter, ShareExp
 from .models import Subscription
 from .models import Contact
 from .models import Feedback
@@ -16,3 +16,6 @@ admin.site.register(Subscription)
 admin.site.register(Contact)
 admin.site.register(Feedback)
 admin.site.register(queryModel)
+
+admin.site.register(ShareExp)
+admin.site.register(AskSuggestion)
