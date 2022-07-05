@@ -71,6 +71,11 @@ def send_mail_after_subscription(email):
     send_mail(subject, message , email_from ,recipient_list )	
 
 
+
+
+#test
+
+#CONTACT PAGE
 @api_view(['GET', 'POST'])
 def Contacts(request):
 	if request.method == "GET":
@@ -90,7 +95,7 @@ def Contacts(request):
 		return HttpResponse("Query received.")
 
 
-
+#FEEDBACK FORM
 @api_view(['GET', 'POST'])
 def feedback(request):
 	if request.method == "GET":
@@ -108,57 +113,30 @@ def feedback(request):
 		feedback.save()
 		return HttpResponse("<h1>Thank you for your feedback!</h1>")
 
-@api_view(['POST','GET'])
-def Our_contributor(request):
-    if request.method == 'GET':
-        allContributors = Contributor.objects.all()
-        context = {'allContributors': allContributors}
-        return HttpResponse(allContributor)
-    if request.method == 'POST':
-        name = request.data.get('name')
-        uploaded_file=request.FILES['document']
-        fs = FileSystemStorage()
-        name = fs.save(uploaded_file.name, uploaded_file)
-        imageurl = fs.url(name)
-        about = request.POST.get('about')
-        status = request.POST.get('status')
-        Facebook_url = request.POST.get('Facebook_url')
-        Instagram_url = request.POST.get('Instagram_url')
-        Mail_url = request.POST.get('Mail_url')
-        Twitter_url = request.POST.get('Twitter_url')
+#RAISE A QUERY
+@api_view(['GET', 'POST'])
+def raiseaquery(request):
+	if request.method == "GET":
+		allquery=queryModel.objects.all()
+		context={'allquery': allquery}
+		return HttpResponse(allquery)
+	if request.method == "POST":
+		query = queryModel()
+		name = request.POST.get('name')
+		email = request.POST.get('email')
+		subject = request.POST.get('subject')
+		query.name = name
+		query.email = email
+		query.subject = subject
+		query.save()
+		return HttpResponse("<h1>Thank you for sending in your query!</h1>")
 
 
-        contributor_obj = Contributor(
-            name=name,
-            Facebook_url = Facebook_url,
-            Instagram_url = Instagram_url,
-            Mail_url = Mail_url,
-            Twitter_url = Twitter_url,
-            about = about,
-            status = status, imageurl = imageurl
-            )
-        contributor_obj.save()
 
 
-        print(contributor_obj)
-        return HttpResponse("Added")
-
-@api_view(['POST', 'GET'])
-def our_donator(request):
-    if request.method == 'POST':
-        name = request.data.get('name')
-        uploaded_file = request.FILES['document']
-        fs = FileSystemStorage()
-        name = fs.save(uploaded_file.name, uploaded_file)
-        imageurl = fs.url(name)
-        about = request.POST.get('about')
-        status = request.POST.get('status')
-        Facebook_url = request.POST.get('Facebook_url')
-        Instagram_url = request.POST.get('Instagram_url')
-        Mail_url = request.POST.get('Mail_url')
-        Twitter_url = request.POST.get('Twitter_url')
 
 
+<<<<<<< HEAD
         donator_obj = Donator(
             name = name,
             about = about,
@@ -208,3 +186,5 @@ def FbLogin(request):
 #         else:
 #             return Response({'errors':{'non_field_errors':['Email or Password is not Valid']}}, status=status.HTTP_404_NOT_FOUND)
 
+=======
+>>>>>>> eb1ee43f2ed1cc0a5f0da882367f1b59690a43c4
