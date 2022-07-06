@@ -1,7 +1,7 @@
 from platform import mac_ver
 from django.db import models
 from django.contrib.auth.models import (
-    AbstractBaseUser, BaseUserManager, PermissionsMixin)
+    User, AbstractBaseUser, BaseUserManager, PermissionsMixin)
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -154,3 +154,22 @@ class AskSuggestion(models.Model):
     title = models.CharField(max_length=50)
 
  
+
+#user profile model
+
+class Profile(models.Model):
+	user = models.ForeignKey(User, on_delete= models.CASCADE, blank=True, null=True)
+	Profile_Pic = models.CharField(default='False', max_length=200)
+	UserType = (
+	('A', 'Admin'),
+	('U', 'User'),
+	)
+	usertype = models.CharField(default='U', max_length=1, choices=UserType)
+	GENDER_CHOICES = (
+		('M', 'Male'),
+		('F', 'Female'),
+		('Other', 'Other'),
+	)
+	gender = models.CharField(max_length=5, choices=GENDER_CHOICES, blank=True, null=True)
+	Age = models.IntegerField(blank=True, null=True)
+	Mobile_Number = models.IntegerField(blank=True, null=True)

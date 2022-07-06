@@ -4,15 +4,19 @@ from django.shortcuts import render
 
 from django.shortcuts import render,HttpResponse,redirect
 from django import http
-from authentication.serializers import ShareExpSerializer
+
+# from authentication.serializers import ShareExpSerializer
+
 from rest_framework.decorators import api_view
 from django.contrib.auth.models import User
+from rest_framework.views import APIView
 
 from django.core.mail import send_mail
 from django.core.files.storage import FileSystemStorage
 from .models import *
-
-
+# from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.permissions import IsAuthenticated
+# from authentication.serializers import UserLoginSerializer
 
 
 
@@ -132,6 +136,7 @@ def raiseaquery(request):
 
 
 
+
 #SHARE EXP APIS
 
 # @api_view(['GET','POST'])
@@ -164,7 +169,93 @@ def raiseaquery(request):
 
 
 
-#ASK SUGGESTION APIS
 
 
+
+
+
+        
+
+
+@api_view(['POST','GET'])
+def Our_contributor(request):
+    if request.method == 'GET':
+        allContributors = Contributor.objects.all()
+        context = {'allContributors': allContributors}
+        return HttpResponse(allContributor)
+    if request.method == 'POST':
+        name = request.data.get('name')
+        uploaded_file=request.FILES['document']
+        fs = FileSystemStorage()
+        name = fs.save(uploaded_file.name, uploaded_file)
+        imageurl = fs.url(name)
+        about = request.POST.get('about')
+        status = request.POST.get('status')
+        Facebook_url = request.POST.get('Facebook_url')
+        Instagram_url = request.POST.get('Instagram_url')
+        Mail_url = request.POST.get('Mail_url')
+        Twitter_url = request.POST.get('Twitter_url')
+        contributor_obj = Contributor(
+            name=name,
+            Facebook_url = Facebook_url,
+            Instagram_url = Instagram_url,
+            Mail_url = Mail_url,
+            Twitter_url = Twitter_url,
+            about = about,
+            status = status, imageurl = imageurl
+            )
+        contributor_obj.save()
+        print(contributor_obj)
+        return HttpResponse("Added")
+
+@api_view(['POST', 'GET'])
+def our_donator(request):
+    if request.method == 'POST':
+        name = request.data.get('name')
+        uploaded_file = request.FILES['document']
+        fs = FileSystemStorage()
+        name = fs.save(uploaded_file.name, uploaded_file)
+        imageurl = fs.url(name)
+        about = request.POST.get('about')
+        status = request.POST.get('status')
+        Facebook_url = request.POST.get('Facebook_url')
+        Instagram_url = request.POST.get('Instagram_url')
+        Mail_url = request.POST.get('Mail_url')
+        Twitter_url = request.POST.get('Twitter_url')
+
+
+        donator_obj = Donator(
+            name = name,
+            about = about,
+            Facebook_url=Facebook_url,
+            Instagram_url=Instagram_url,
+            Mail_url=Mail_url,
+            Twitter_url=Twitter_url,
+            status = status, imageurl = imageurl
+            )
+        donator_obj.save()
+        print(donator_obj)
+        return HttpResponse("Added successfully")
+    if request.method == 'GET':
+        allDonators = Donators.objects.all()
+        context = {'allDonators': allDonators}
+        return HttpResponse(allDonators)
+
+
+
+@api_view(['GET', 'POST'])
+def FbLogin(request):
+	if request.method == "GET":
+		allFbLogin=FbLogin.objects.all()
+		context={'FbLogin': FbLogin}
+		return HttpResponse(FbLogin)
+	if request.method == "POST":
+		name = request.POST.get('name')
+		email = request.POST.get('email')
+		Fblogin_obj = Contact(
+			name = name,
+			email = email,
+		)
+		Fblogin_obj.save()
+		return HttpResponse("Succesfully Logged In via Facebook.")
 
