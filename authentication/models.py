@@ -1,10 +1,11 @@
 from platform import mac_ver
+from random import random
 from django.db import models
 from django.contrib.auth.models import (
     User, AbstractBaseUser, BaseUserManager, PermissionsMixin)
 from django.db import models
 from django.contrib.auth.models import User
-
+import random
 
 
 class Newsletter(models.Model):
@@ -173,3 +174,34 @@ class Profile(models.Model):
 	gender = models.CharField(max_length=5, choices=GENDER_CHOICES, blank=True, null=True)
 	Age = models.IntegerField(blank=True, null=True)
 	Mobile_Number = models.IntegerField(blank=True, null=True)
+
+
+
+
+#DISEASE LIST 
+
+class disease_names(models.Model):
+    name = models.CharField(max_length=50)
+    disease_code = models.CharField(max_length=10, blank=True, null=True)
+    def save(self):
+        if self.disease_code is None:
+            s1 = self.name[0:3]
+            s2 = str(random.randint(100,999))
+            self.disease_code = s1 + s2
+        super().save()
+
+
+
+#PATHY LIST
+
+class pathy_names(models.Model):
+    name = models.CharField(max_length=50)
+    pathy_code = models.CharField(max_length=10, blank=True, null=True)
+    
+    def save(self):
+        if self.pathy_code is None:
+            s1 = self.name[0:3]
+            s2 = str(random.randint(100,999))
+            self.pathy_code = s1 + s2
+        super().save()
+    

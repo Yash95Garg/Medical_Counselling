@@ -6,8 +6,7 @@ from django.shortcuts import render,HttpResponse,redirect
 from django import http
 
 # from authentication.serializers import ShareExpSerializer
-
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from django.contrib.auth.models import User
 from rest_framework.views import APIView
 
@@ -15,7 +14,10 @@ from django.core.mail import send_mail
 from django.core.files.storage import FileSystemStorage
 from .models import *
 # from rest_framework_simplejwt.tokens import RefreshToken
+
 from rest_framework.permissions import IsAuthenticated
+
+
 # from authentication.serializers import UserLoginSerializer
 
 
@@ -162,6 +164,7 @@ def raiseaquery(request):
 
 
 
+
 			
 
 
@@ -182,7 +185,7 @@ def Our_contributor(request):
     if request.method == 'GET':
         allContributors = Contributor.objects.all()
         context = {'allContributors': allContributors}
-        return HttpResponse(allContributor)
+        return HttpResponse(allContributors)
     if request.method == 'POST':
         name = request.data.get('name')
         uploaded_file=request.FILES['document']
@@ -237,7 +240,7 @@ def our_donator(request):
         print(donator_obj)
         return HttpResponse("Added successfully")
     if request.method == 'GET':
-        allDonators = Donators.objects.all()
+        allDonators = Donator.objects.all()
         context = {'allDonators': allDonators}
         return HttpResponse(allDonators)
 
@@ -259,3 +262,31 @@ def FbLogin(request):
 		Fblogin_obj.save()
 		return HttpResponse("Succesfully Logged In via Facebook.")
 
+
+#DISEASE LIST AND PATHY LIST APIS
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def add_disease(request):
+    if request.method == "POST":
+        dl = disease_names()
+        name = request.POST.get('name')
+        disease_code = request.POST.get('disease_code')
+        dl.name = name
+        dl.disease_code = disease_code
+        dl.save()
+        return HttpResponse("Disease name added")
+
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def add_pathy(request):
+    if request.method == "POST":
+        pl= pathy_names()
+        name = request.POST.get('name')
+        pathy_code = request.POST.get('pathy_code')
+        pl.name = name
+        pl.pathy_code = pathy_code
+        pl.save()
+        return HttpResponse("Pathy name added")

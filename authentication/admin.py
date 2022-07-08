@@ -23,3 +23,5 @@ admin.site.register(queryModel)
 admin.site.register(ShareExp)
 admin.site.register(AskSuggestion)
 
+admin.site.register(disease_names)
+admin.site.register(pathy_names)
