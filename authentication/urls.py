@@ -7,6 +7,7 @@ urlpatterns = [
     path('contact/', views.Contacts, name = 'contact'),
     path('feedback/', views.feedback, name = 'feedback'),
     path('query/', views.raiseaquery, name = 'query'),
+    
    
     
 ]

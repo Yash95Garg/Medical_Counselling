@@ -16,6 +16,7 @@ Including another URLconf
 from xml.etree.ElementInclude import include
 from django.contrib import admin
 from django.urls import path, include
+from authentication import views
 
 import authentication
 
@@ -23,5 +24,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include ('authentication.urls')),
     path('accounts/', include('allauth.urls')),
+    path('', views.Home, name = 'home'),
     
 ]

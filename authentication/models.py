@@ -2,7 +2,8 @@ from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager, PermissionsMixin)
 from django.db import models
-
+from django.contrib.auth.models import User
+from django.http import HttpResponse
 
 
 
@@ -72,3 +73,43 @@ class Donator(models.Model):
     Instagram_url = models.TextField(max_length=50)
     Mail_url = models.TextField(max_length=50)
     Twitter_url = models.TextField(max_length=50)
+
+
+
+
+class uniqueVisitor(models.Model):
+    user = models.TextField(default=None)
+    def __str__(self):
+        return self.user
+
+
+#DISEASE LIST 
+
+class disease_names(models.Model):
+    name = models.CharField(max_length=50)
+    disease_code = models.CharField(max_length=10, blank=True, null=True)
+    def save(self):
+        if self.disease_code is None:
+            s1 = self.name[0:3]
+            s2 = str(random.randint(100,999))
+            self.disease_code = s1 + s2
+        super().save()
+
+
+
+#PATHY LIST
+
+class pathy_names(models.Model):
+    name = models.CharField(max_length=50)
+    pathy_code = models.CharField(max_length=10, blank=True, null=True)
+    
+    def save(self):
+        if self.pathy_code is None:
+            s1 = self.name[0:3]
+            s2 = str(random.randint(100,999))
+            self.pathy_code = s1 + s2
+        super().save()
+
+
+
+
